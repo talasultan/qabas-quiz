@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أي تيم في قبس بشبهك؟</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F5F9;--surf:#fff;--ink:#1B2340;--mut:#5B6585;--line:#D8DDEA;--ember:#E8791A;--ember-ink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10152B;--surf:#1A2140;--ink:#EEF1FA;--mut:#A3ACCB;--line:#2C3566;--ember:#FF9B3D;--ember-ink:#10152B}}
+:root[data-theme="dark"]{--bg:#10152B;--surf:#1A2140;--ink:#EEF1FA;--mut:#A3ACCB;--line:#2C3566;--ember:#FF9B3D;--ember-ink:#10152B}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,sans-serif;line-height:1.7}
+.wrap{max-width:560px;margin:0 auto;padding:24px 18px 48px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+.brand svg{width:28px;height:28px}
+h1{font-size:34px;line-height:1.3;margin:36px 0 12px;font-weight:800}
+p.lead{color:var(--mut);margin:0 0 28px;font-size:17px}
+.btn{font:inherit;font-weight:800;font-size:18px;background:var(--ember);color:var(--ember-ink);border:0;border-radius:14px;padding:14px 28px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn:focus-visible,.opt:focus-visible{outline:3px solid var(--ember);outline-offset:3px}
+.teams{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px;padding:0;list-style:none}
+.teams li{padding:4px 14px;border-radius:99px;border:2px solid var(--c);font-size:15px;font-weight:600}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:28px 0 8px}
+.bar i{display:block;height:100%;width:0;background:var(--ember);border-radius:99px;transition:width .35s}
+.count{color:var(--mut);font-size:14px}
+h2{font-size:24px;line-height:1.5;margin:14px 0 20px;font-weight:800}
+.opt{display:block;width:100%;text-align:start;font:inherit;font-size:17px;color:var(--ink);background:var(--surf);border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 10px;cursor:pointer;transition:border-color .15s,transform .15s}
+.opt:hover{border-color:var(--ember)}
+.opt:active{transform:scale(.98)}
+.res-name{font-size:38px;font-weight:800;line-height:1.3;margin:8px 0;color:var(--c)}
+.res-tag{display:inline-block;border:2px solid var(--c);border-radius:99px;padding:2px 14px;font-weight:600;font-size:15px}
+.card{background:var(--surf);border:2px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0}
+.card h3{margin:0 0 4px;font-size:17px}
+.card p{margin:0;color:var(--mut)}
+.row{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:15px}
+.row b{width:112px;flex:none;font-weight:600}
+.row .t{flex:1;height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.row .t i{display:block;height:100%;background:var(--c);border-radius:99px}
+.row span{width:38px;text-align:end;color:var(--mut)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2c1 6 8 9 8 17a8 8 0 0 1-16 0c0-4 2-6 4-8 0 3 1 4 2 4 1-5-1-8 2-13z" fill="var(--ember)"/></svg>
+    مجتمع قبس التقني
+  </div>
+
+  <section id="start">
+    <h1>أي تيم في قبس بشبهك؟</h1>
+    <p class="lead">عشرين سؤال سريع، جاوب بالإشي اللي بتعمله فعلاً مش اللي بتتمنى تعمله، وبنقلك وين مكانك بيننا.</p>
+    <ul class="teams" id="teamChips"></ul>
+    <button class="btn" id="go">ابدأ اللعبة</button>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="bar"><i id="fill"></i></div>
+    <div class="count" id="count"></div>
+    <h2 id="q"></h2>
+    <div id="opts"></div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="count">تيمك في قبس هو</div>
+    <div class="res-name" id="rName"></div>
+    <span class="res-tag" id="rTag"></span>
+    <div class="card"><h3>ليش هذا التيم؟</h3><p id="rWhy"></p></div>
+    <div class="card"><h3>شو بتعمل عنا؟</h3><p id="rDo"></p></div>
+    <div id="bars"></div>
+    <div class="actions">
+      <button class="btn" id="again">العب مرة ثانية</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const T={
+ev:{n:"تخطيط الفعاليات",c:"#E8791A",tag:"المنظّم",why:"بتشوف الصورة الكبيرة والتفاصيل الصغيرة بنفس الوقت. الجدول، الوقت، والناس كلهم بترتبهم بدون ما تحس بضغط.",do:"بتخطط ورش العمل واللقاءات، وبتنسق مع المتحدثين والمكان، وبتخلي يوم الفعالية يمشي زي الساعة."},
+pr:{n:"العلاقات العامة",c:"#2F80ED",tag:"الجسر",why:"بتعرف تفتح حكي مع أي حدا وتبني علاقة بسرعة. الناس بترتاح إلك وبتحب تسمع منك.",do:"بتتواصل مع الشركاء والرعاة والمتحدثين، وبتمثل قبس قدام المجتمع والجهات الخارجية."},
+md:{n:"الميديا",c:"#9B51E0",tag:"الراوي",why:"عينك بتلتقط اللحظة والفكرة، وبتعرف تحولها لشي الناس بتوقف عنده وبتشاركه.",do:"بتصمم وبتصور وبتكتب محتوى قبس على السوشال ميديا، وبتوثق الفعاليات بقصة بتنحكى."},
+hr:{n:"الموارد البشرية",c:"#27AE60",tag:"الداعم",why:"بتفهم الناس قبل ما يحكوا. بتحس مين تعبان ومين متحمس ومين محتاج فرصة.",do:"بتستقطب المتطوعين، وبتوزعهم على التيمات اللي بتناسبهم، وبتحافظ على روح الفريق."},
+qa:{n:"ضمان الجودة",c:"#D6336C",tag:"الحارس",why:"ما بتفوتك تفصيلة. بتحب تشوف الشغل مرتب وبأعلى مستوى، وبتسأل «شو ممكن يغلط؟» قبل الكل.",do:"بتراجع الخطط والمحتوى والفعاليات، وبتحط معايير بتخلي كل شي بطلع من قبس بجودة عالية."}
+};
+const Q=[
+{q:"مجموعة أصحابك رايحين رحلة. شو دورك الطبيعي؟",o:[["ev","بحجز وبرتب البرنامج والمواعيد"],["pr","بحكي مع الكل وبعرّف الناس ببعض"],["md","بصوّر وبوثّق كل لحظة"],["hr","بتأكد إنه كل واحد مرتاح ومنسجم"],["qa","بتأكد إنه ما نسينا إشي من الغراض"]]},
+{q:"أكتر شي بتستمتع فيه بأي فعالية؟",o:[["ev","لما كل شي يمشي حسب الخطة"],["pr","لما أتعرف على ناس جداد"],["md","لما ألاقي لقطة حلوة تنحكي"],["hr","لما أشوف الفريق متعاون وسعيد"],["qa","لما أطلع بدون ولا ملاحظة"]]},
+{q:"صديقك عنده مشكلة بالدوام، كيف بتساعده؟",o:[["hr","بسمعه كويس وبحاول أفهم شو حاسس"],["pr","بحكيله كيف يتفاهم مع مديره"],["ev","بعمله خطة خطوة بخطوة"],["qa","بسأله أسئلة لحد ما نلاقي أصل المشكلة"],["md","بكتبله رسالة قوية يرسلها"]]},
+{q:"أول شي بتلاحظه لما تدخل مكان فيه حدث؟",o:[["ev","التنظيم وتوزيع المكان"],["pr","مين الناس المهمين وكيف أحكي معهم"],["md","الإضاءة والديكور والأجواء"],["hr","وجوه الناس وهل هم مرتاحين"],["qa","الأخطاء الصغيرة، لافتة غلط أو شي مش شغال"]]},
+{q:"يوم الفعالية، المتحدث تأخر ساعة. شو بتعمل؟",o:[["ev","بعدّل الجدول فوراً وبرتب بديل"],["pr","بكلمه وبطمّن الحضور وبعتذر لهم بلباقة"],["md","بعمل محتوى خفيف يسلي الحضور"],["hr","بنسق مع الفريق عشان كل واحد يعرف دوره"],["qa","بسجل شو صار عشان ما يتكرر"]]},
+{q:"شو أقوى مهارة عندك؟",o:[["ev","التنظيم وإدارة الوقت"],["pr","الإقناع وبناء العلاقات"],["md","الإبداع والتصميم والكتابة"],["hr","التعاطف وفهم الناس"],["qa","الدقة وملاحظة التفاصيل"]]},
+{q:"الكل مبسوط من الشغل، بس في تفصيلة صغيرة مش مضبوطة. رد فعلك؟",o:[["qa","ما برتاح لحد ما أصلحها"],["ev","بسجلها وبرتبها بالنسخة الجاية"],["pr","بنبه صاحب الشأن بلطف"],["hr","بحكي مع الشخص بشكل ودي"],["md","بعدّلها بصرياً وبنزلها محدثة"]]},
+{q:"وقت فراغك، شو بتحب تعمل؟",o:[["ev","أخطط لطلعة أو سهرة مع الشلة"],["pr","أطلع مع ناس وأتعرف على جداد"],["md","أصور أو أصمم أو أكتب"],["hr","أقعد مع حدا من الأصدقاء وأسمعه"],["qa","أرتب أغراضي وأحل ألغاز"]]},
+{q:"توزعت المهام بمشروع جماعي، أي مهمة بتختار؟",o:[["ev","جدولة المواعيد والتسليمات"],["pr","التواصل مع الجهات الخارجية"],["md","التصميم وعرض النتيجة"],["hr","توزيع الأدوار بين الفريق"],["qa","مراجعة الشغل قبل التسليم"]]},
+{q:"لما بدك تشتري إشي جديد، شو بتعمل؟",o:[["qa","بقرا التقييمات وبقارن بين الخيارات"],["pr","بسأل ناس جربوه"],["md","بحكم من الشكل والتصميم"],["ev","بحط ميزانية وبخطط للشراء"],["hr","بفكر شو بناسب شخصيتي واحتياجي"]]},
+{q:"الكل متوتر قبل حدث كبير. شو بتعمل؟",o:[["hr","بهدّي الجو وبسمع منهم"],["ev","بعمل قائمة مهام أخيرة"],["pr","برفع معنوياتهم وبحكيلهم إنه الكل جاي يدعمنا"],["md","بصوّر كواليس مضحكة تفك التوتر"],["qa","بعمل مراجعة أخيرة لكل التفاصيل"]]},
+{q:"كيف بتحب تقدم فكرة قدام الناس؟",o:[["md","بعرض مصمم وجذاب"],["pr","بحكي وبقنعهم بحماس"],["ev","بخطة واضحة بخطوات"],["qa","بأرقام وأدلة"],["hr","بطريقة بتلمس الناس وبتشعرهم فيها"]]},
+{q:"شو أكتر إشي بضايقك بالشغل الجماعي؟",o:[["ev","الفوضى وعدم الالتزام بالمواعيد"],["pr","إنه ما حدا يتواصل مع غيره"],["md","الشغل اللي مش مرتب بصرياً"],["hr","إنه حدا يحس إنه مش مسموع"],["qa","الأخطاء اللي بتتكرر"]]},
+{q:"أصحابك بوصفوك بإنك...",o:[["ev","منظّم وبتحب الترتيب"],["pr","اجتماعي وبتعرف كل الناس"],["md","مبدع وعندك ذوق"],["hr","بتسمع وبتفهم"],["qa","دقيق وما بتفوتك وحدة"]]},
+{q:"انضم متطوع جديد وهو محتار. شو بتعمل؟",o:[["hr","بقعد معه وبفهم اهتماماته"],["pr","بعرفه على الناس"],["ev","بحكيله عن الجدول والأنشطة"],["md","بوريه شغلنا من خلال الصور والفيديوهات"],["qa","بشرحله القواعد والمعايير"]]},
+{q:"بتستخدم تطبيق جوال جديد. شو بلفت انتباهك؟",o:[["md","الشكل والتصميم"],["qa","إنه ما يفصل وما فيه أخطاء"],["ev","ترتيب الخطوات والخيارات"],["pr","كيف بوصل للناس وبنتشر"],["hr","راحة المستخدم وتجربته"]]},
+{q:"أي إنجاز بتفتخر فيه أكتر؟",o:[["ev","نظمت حدث نجح"],["pr","بنيت شبكة علاقات قوية"],["md","محتوى انتشر وناس تفاعلت معه"],["hr","ساعدت شخص يتطور"],["qa","صلحت مشكلة قبل ما تظهر"]]},
+{q:"عندك ساعة فاضية أثناء الفعالية. شو بتعمل؟",o:[["ev","بتأكد من الفقرة الجاية"],["pr","بحكي مع الضيوف والحضور"],["md","بصور وبنزل ستوري"],["hr","بسأل المتطوعين إذا بدهم مساعدة"],["qa","بمشي بالمكان وبفحص كل شي"]]},
+{q:"كيف بتتعامل مع النقد؟",o:[["qa","بحبه، بيحسن الشغل"],["pr","بحكي مع الناقد وبفهم وجهة نظره"],["md","بحوله لفكرة جديدة"],["hr","بحاول أفهم شو وراه من شعور"],["ev","بسجله وبعدل الخطة"]]},
+{q:"أقرب جملة لشعارك بالحياة؟",o:[["ev","التخطيط نص النجاح"],["pr","العلاقات أهم من الإنجازات"],["md","الفكرة لازم تنشاف"],["hr","الناس أولاً"],["qa","التفاصيل بتفرق"]]}
+];
+const $=id=>document.getElementById(id);
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let i=0,sc={};
+$("teamChips").innerHTML=Object.values(T).map(t=>`<li style="--c:${t.c}">${t.n}</li>`).join("");
+function show(id){["start","quiz","result"].forEach(s=>$(s).hidden=s!==id)}
+function start(){i=0;sc={ev:0,pr:0,md:0,hr:0,qa:0};show("quiz");ask()}
+function ask(){
+  const x=Q[i];
+  $("fill").style.width=(i/Q.length*100)+"%";
+  $("count").textContent=`سؤال ${i+1} من ${Q.length}`;
+  $("q").textContent=x.q;
+  $("opts").innerHTML="";
+  sh(x.o).forEach(([k,txt])=>{
+    const b=document.createElement("button");
+    b.className="opt";b.type="button";b.textContent=txt;
+    b.onclick=()=>{sc[k]++;i++;i<Q.length?ask():finish()};
+    $("opts").appendChild(b);
+  });
+}
+function finish(){
+  const order=sh(Object.keys(sc)).sort((a,b)=>sc[b]-sc[a]);
+  const t=T[order[0]];
+  show("result");
+  const r=$("result");r.style.setProperty("--c",t.c);
+  $("rName").textContent=t.n;$("rTag").textContent=t.tag;
+  $("rWhy").textContent=t.why;$("rDo").textContent=t.do;
+  $("bars").innerHTML=order.map(k=>{const p=Math.round(sc[k]/Q.length*100);
+    return `<div class="row" style="--c:${T[k].c}"><b>${T[k].n}</b><div class="t"><i style="width:${p}%"></i></div><span>${p}%</span></div>`}).join("");
+  window.scrollTo(0,0);
+}
+$("go").onclick=start;$("again").onclick=()=>{show("start");window.scrollTo(0,0)};
+</script>
+</body>
+</html>
